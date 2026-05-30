@@ -1,70 +1,66 @@
-let countries = []
-let stations = []
+    let countries = []
+    let stations = []
 
-const baseURL = "https://de1.api.radio-browser.info/json/"
+    const baseURL = "https://de1.api.radio-browser.info/json/"
 // LOAD COUNTRIES
-async function loadCountries(params){
-    const res = await fetch(`${baseURL}countries`)
-    countries = await res.json();
-    console.log(countries);
+    async function loadcountries(params) {
+        const res = await fetch(`${baseURL}countries`)
+        countries = await res.json();
+        console.log(countries)
 
-    const select = document.getElementById("countrySelect")
-    select.innerHTML = "";
+        const select = document.getElementById("countrySelect")
+        select.innerHTML = "";
 
-    countries.forEach(c => {
-        let opt = document.createElement("option");
-        opt.value = c.name
-        opt.textContent = c.name
-        select.appendChild(opt)
-    });
-}
-
-// LOAD ALL COUNTRIES STATIONS
-
-async function loadStations(country) {
-    const res = await fetch (`${baseURL}stations/bycountry/${country}?limit=50`)
-    stations = await res.json()
-
-    const select = document.getElementById("stationSelect");
-    select.innerHTML = "";
-   
-    stations.forEach((s, i) =>{
-        if(s.url_resolved)
-        {
+        countries.forEach(c => {
             let opt = document.createElement("option");
-            opt.value = i;
-            opt.textContent = s.name;
-            select.appendChild(opt);
-        }
+            opt.value = c.name
+            opt.textContent = c.name
+            select.appendChild(opt)
 
-    });
-    updateUI
-}
+        });    
+    }
 
-function updateUI()
-{
-    const station = stations[stationSelect.value]
-    if(!station) return;
+    // LOAD ALL COUNTRIES STATIONS
+    async function loadstations (country){
+        const res = await fetch(`${baseURL}stations/bycountry/${country}?limit=50`)
+        stations = await res.json();
+        const select = document.getElementById("stationSelect");
+        select.innerHTML = ""
 
-    document.getElementById("stationName").textContent = station.name
-    document.getElementById("stationInfo").textContent =
-         `${station.tags || "No Genre"} 💠 ${station.bitrate || "?"} kbps`
+        stations.forEach((s, i) =>{
+            if(s.url_resolved)
+            {
+                let opt = document.createElement("option")
+                opt.value = i
+                opt.textContent = s.name
+                select.appendChild(opt)
 
-   
+            }
 
-    document.getElementById("stationLogo").src =
-    (station.favicon && station.favicon.startsWith("http"))
-    ? station.favicon
-    : "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+        })
+        updateUI()
+    }
 
-}
+    function updateUI()
+    {
+        const station = stations[stationSelect.value]
+        if(!station) return;
 
-countrySelect.addEventListener("change", e => {
-    loadStations(e.target.value)
-})
+        document.getElementById("stationName").textContent = station.name
+        document.getElementById("stationInfo").textContent = 
+        `${station.tags} || "No Genre" 🦖 ${station.bitrate || "?"} kbps`
 
-stationSelect.addEventListener("change", updateUI)
+        document.getElementById("stationLogo").src = 
+        (station.favicon && station.favicon.startsWith("http"))
+        ? station.favicon
+        : "https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"
+    }
+    countrySelect.addEventListener("change", e => {
+        loadstations(e.target.value)
+    })
 
+    stationSelect.addEventListener("change", updateUI)
+/* ---------------- AUDIO ---------------- */
 const audio = document.getElementById("audio");
 let audioCtx, analyser, source, dataArray;
 
@@ -127,5 +123,5 @@ for (let i = 0; i < 60; i++) {
     bar.classList.add("bar");
     eq.appendChild(bar);
 }
-
-loadCountries();
+    loadcountries();
+   

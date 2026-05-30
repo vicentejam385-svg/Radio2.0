@@ -1,0 +1,127 @@
+/* =========================
+    BACKGROUND
+========================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    overflow: hidden;
+
+    background: linear-gradient(135deg, #0f172a, #111827, #0b1220);
+    position: relative;
+}
+
+/* glowing blobs */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    filter: blur(70px);
+    z-index: 0;
+    animation: floatGlow 10s ease-in-out infinite;
+}
+
+/* blue glow */
+body::before {
+    top: -120px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(59,130,246,0.35), transparent 60%);
+}
+
+/* pink glow */
+body::after {
+    bottom: -150px;
+    right: -150px;
+    background: radial-gradient(circle, rgba(236,72,153,0.25), transparent 60%);
+    animation-delay: 3s;
+}
+
+@keyframes floatGlow {
+    0%   { transform: translateY(0px) scale(1); }
+    50%  { transform: translateY(30px) scale(1.1); }
+    100% { transform: translateY(0px) scale(1); }
+}
+
+
+.radio-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   CARD UI
+========================= */
+.radio-card {
+    max-width: 450px;
+    background: #fff;
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.25),
+        0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* LOGO */
+.logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.playing {
+    animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* BUTTONS */
+.btn-play {
+    background: #2563eb;
+    color: white;
+    border-radius: 25px;
+    padding: 8px 20px;
+    border: none;
+}
+
+.btn-stop {
+    background: #ef4444;
+    color: white;
+    border-radius: 25px;
+    padding: 8px 20px;
+    border: none;
+}
+
+/* EQUALIZER */
+.equalizer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100px;
+    gap: 4px;
+    margin-top: 15px;
+}
+
+.bar {
+    width: 60px;
+    height: 10px;
+    border-radius: 4px;
+    transition: height 0.1s;
+}
+
+/* TEXT */
+.small-info {
+    font-size: 12px;
+    color: gray;
+}
